@@ -1,0 +1,13 @@
+# Gitweb only officially supplies samples for Apache.
+# I had issues finding an example for gitweb on Caddy anywhere else online.
+# So I did the next thing, made my own Caddyfile for Gitweb.
+git.based.quest {
+	root * /usr/share/gitweb
+	try_files index.cgi
+	reverse_proxy unix//var/run/fcgiwrap.socket {
+		transport fastcgi {
+			env GITWEB_CONFIG /etc/gitweb.conf
+			split .cgi
+		}
+	}
+}
